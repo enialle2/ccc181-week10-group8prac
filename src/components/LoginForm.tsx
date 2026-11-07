@@ -1,8 +1,11 @@
-// GIVEN FILE (styled in form.css by Member 3). Do not edit.
-// The sign-in is a DEMO: nothing is sent to a server and nothing is saved.
-import { useState } from 'react';
+// Part 2: the form now calls the real API (src/api/auth.ts).
+// The Part 1 checks still run first, so obviously wrong input never reaches the backend.
+import { useEffect, useState } from 'react';
 import type { ChangeEvent, FormEvent } from 'react';
 import type { LoginErrors, LoginFormValues } from '../types';
+import { AuthError, clearToken, getMe, login, readToken, saveToken } from '../api/auth';
+import type { User } from '../api/auth';
+import Welcome from './Welcome';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -27,7 +30,26 @@ export default function LoginForm() {
   const [values, setValues] = useState<LoginFormValues>(INITIAL_VALUES);
   const [errors, setErrors] = useState<LoginErrors>({});
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [signedInAs, setSignedInAs] = useState<string | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [checkingSession, setCheckingSession] = useState<boolean>(() => readToken() !== null);
+  const [apiError, setApiError] = useState<string | null>(null);
+
+  // Stay logged in on refresh: if a token exists, ask the API who it belongs to.
+  useEffect(() => {
+    const token = readToken();
+    if (!token) return;
+
+    getMe(token)
+      .then((me) => setUser(me))
+      .catch((error: unknown) => {
+        // 401 means the token is wrong or expired, so delete it and show the form.
+        if (error instanceof AuthError && error.kind === 'unauthorized') {
+          clearToken();
+        }
+      })
+      .finally(() => setCheckingSession(false));
+  }, []);
 
   function handleChange(event: ChangeEvent<HTMLInputElement>) {
     const { name, type, value, checked } = event.target;
@@ -37,11 +59,50 @@ export default function LoginForm() {
     }));
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setApiError(null);
+
     const nextErrors = validate(values);
     setErrors(nextErrors);
-    setSignedInAs(Object.keys(nextErrors).length === 0 ? values.email : null);
+    // Part 1 checks first: an invalid form never sends a request.
+    if (Object.keys(nextErrors).length > 0) return;
+
+    setLoading(true);
+    try {
+      const result = await login(values.email, values.password);
+      saveToken(result.token);
+      setUser(result.user);
+    } catch (error: unknown) {
+      setApiError(
+        error instanceof AuthError
+          ? error.message
+          : 'Something went wrong on our side. Please try again later.',
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function handleLogout() {
+    clearToken();
+    setUser(null);
+    setValues(INITIAL_VALUES);
+    setErrors({});
+    setApiError(null);
+  }
+
+  if (checkingSession) {
+    return (
+      <section className="login-card" aria-busy="true">
+        <p className="login-card__subtitle">Checking your session...</p>
+      </section>
+    );
+  }
+
+  // Welcome screen only after the API answered 200.
+  if (user) {
+    return <Welcome user={user} onLogout={handleLogout} />;
   }
 
   return (
@@ -50,6 +111,12 @@ export default function LoginForm() {
         Sign in
       </h2>
       <p className="login-card__subtitle">Use your school email to continue.</p>
+
+      {apiError && (
+        <p className="form-error auth-message" role="alert">
+          {apiError}
+        </p>
+      )}
 
       <form className="login-form" onSubmit={handleSubmit} noValidate>
         <div className="form-field">
@@ -118,16 +185,9 @@ export default function LoginForm() {
           </a>
         </div>
 
-        <button type="submit" className="btn btn--primary">
-          Sign in
+        <button type="submit" className="btn btn--primary" disabled={loading}>
+          {loading ? 'Signing in...' : 'Sign in'}
         </button>
-
-        {signedInAs && (
-          <p className="form-success" role="status">
-            Demo only: {signedInAs} would be signed in here. Nothing was sent
-            or saved.
-          </p>
-        )}
       </form>
 
       <div className="login-card__divider">
