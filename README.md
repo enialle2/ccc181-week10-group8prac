@@ -21,19 +21,19 @@ npm run build        # must finish with no errors before you submit
 
 ## Group information (fill in)
 
-| Item | Your answer |
-| --- | --- |
-| Group number | |
-| Section | |
-| Repository URL | |
+| Item           | Your answer |
+| -------------- | ----------- |
+| Group number   |             |
+| Section        |             |
+| Repository URL |             |
 
 ## Members (each member fills in their own row in their own commit)
 
-| Member | Name | GitHub username | CSS file | What I did |
-| --- | --- | --- | --- | --- |
-| 1 (leader) | | | `base.css` | |
-| 2 | | | `nav.css` | |
-| 3 | | | `form.css` | |
+| Member     | Name | GitHub username | CSS file   | What I did |
+| ---------- | ---- | --------------- | ---------- | ---------- |
+| 1 (leader) |      |                 | `base.css` |            |
+| 2          |      |                 | `nav.css`  |            |
+| 3          |      |                 | `form.css` |            |
 
 ## Experiment 0: the page without the viewport tag
 
@@ -44,12 +44,12 @@ What changed **after** adding it?
 
 ## DevTools test results
 
-| Width | What must be true | Pass? |
-| --- | --- | --- |
-| 360 px | 1 column. Nav links stacked and 48px tall. Options and buttons stacked. Footer in 1 column. No sideways scrollbar. | |
-| 768 px | Nav in one row (brand left, links right). Checkbox and link in one row. Two buttons side by side. | |
-| 1024 px | Brand panel and login card side by side. Footer in 3 columns. Heading is larger. | |
-| 1280 px | Content centered and stops at 1200px. | |
+| Width   | What must be true                                                                                                  | Pass? |
+| ------- | ------------------------------------------------------------------------------------------------------------------ | ----- |
+| 360 px  | 1 column. Nav links stacked and 48px tall. Options and buttons stacked. Footer in 1 column. No sideways scrollbar. |       |
+| 768 px  | Nav in one row (brand left, links right). Checkbox and link in one row. Two buttons side by side.                  |       |
+| 1024 px | Brand panel and login card side by side. Footer in 3 columns. Heading is larger.                                   |       |
+| 1280 px | Content centered and stops at 1200px.                                                                              |       |
 
 ### Breakpoints I observed
 
@@ -62,3 +62,48 @@ Screenshots are in `screenshots/` as `360.png`, `768.png`, `1024.png`, `1280.png
 ## What our group learned (leader writes this last)
 
 > (write your answer here)
+
+## Part 2: Login with the API
+
+### How to run
+
+Terminal 1 (backend):
+
+```bash
+cd server
+npm install
+copy .env.example .env
+npm start
+```
+
+Terminal 2 (front end, in the project root):
+
+```bash
+npm install
+copy .env.example .env
+npm run dev
+```
+
+Open http://localhost:5173 and log in with the demo account:
+`student@campusconnect.test` / `Campus26`.
+Both `.env.example` files hold fake values. The real `.env` files are not committed.
+
+### API summary
+
+| Method | Endpoint           | Purpose                                      |
+| ------ | ------------------ | -------------------------------------------- |
+| GET    | `/api/v1/health`   | Checks that the API is running               |
+| POST   | `/api/v1/sessions` | Logs in and returns a token and the user     |
+| GET    | `/api/v1/users/me` | Returns the logged-in user (needs the token) |
+
+Full specification: [docs/API-SPEC.md](docs/API-SPEC.md)
+
+### Who did what (Part 2)
+
+| Member | Name             | GitHub username | What I did in Part 2                                                                                                                                                                                    |
+| ------ | ---------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 3      | Zemeco M. Buntag | zemecobuntag    | Front end: added `.env` and `src/api/auth.ts`, made the login form call the API with Loading, Success and Error states, added the Welcome screen with refresh and Log out, and styled it in `auth.css`. |
+
+### Screenshots
+
+`screenshots/login-fail-360.png` and `screenshots/login-success-360.png`
