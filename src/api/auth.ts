@@ -31,15 +31,25 @@ const SERVER_MESSAGE = 'Something went wrong on our side. Please try again later
 async function send(path: string, init?: RequestInit): Promise<Response> {
   try {
     return await fetch(`${API_URL}${path}`, init);
-  } catch {
-    // Show a friendly message
-    console.log('[API ERROR] Cannot reach the server');
+  } catch (error) {
+    // Show a friendly message to the user, and the details in the console
+    console.log('[API ERROR] Cannot reach the server', error);
     throw new AuthError('network', NETWORK_MESSAGE);
+  }
+}
+
+// Read the answer from the API (empty if there is none)
+async function readBody(response: Response): Promise<unknown> {
+  try {
+    return await response.json();
+  } catch {
+    return null;
   }
 }
 
 // Log in
 export async function login(email: string, password: string): Promise<LoginResult> {
+  // The password is hidden in the log
   console.log('[API REQUEST] POST /sessions', { email, password: '********' });
 
   const response = await send('/sessions', {
@@ -47,34 +57,40 @@ export async function login(email: string, password: string): Promise<LoginResul
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password }),
   });
+  const body = await readBody(response);
 
-  console.log('[API RESPONSE] status', response.status);
-
-  if (response.ok) {
-    const data = (await response.json()) as LoginResult;
-    console.log('[API RESPONSE] user', data.user); // token is not shown
+  if (response.ok && body) {
+    const data = body as LoginResult;
+    // The token is hidden in the log
+    console.log('[API RESPONSE] status', response.status, {
+      token: '[hidden]',
+      user: data.user,
+    });
     return data;
   }
+
+  console.log('[API ERROR] status', response.status, body);
   if (response.status === 400 || response.status === 401) {
-    console.log('[API ERROR] Invalid email or password.');
     throw new AuthError('invalid', 'Wrong email or password.');
   }
-  console.log('[API ERROR] Server problem');
   throw new AuthError('server', SERVER_MESSAGE);
 }
 
 // Get the logged-in user
 export async function getMe(token: string): Promise<User> {
-  console.log('[API REQUEST] GET /users/me');
+  console.log('[API REQUEST] GET /users/me', { Authorization: 'Bearer [hidden]' });
 
   const response = await send('/users/me', {
     headers: { Authorization: `Bearer ${token}` },
   });
-  console.log('[API RESPONSE] status', response.status);
+  const body = await readBody(response);
 
-  if (response.ok) {
-    return (await response.json()) as User;
+  if (response.ok && body) {
+    console.log('[API RESPONSE] status', response.status, body);
+    return body as User;
   }
+
+  console.log('[API ERROR] status', response.status, body);
   if (response.status === 401) {
     throw new AuthError('unauthorized', 'Not logged in.');
   }
