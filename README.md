@@ -21,19 +21,19 @@ npm run build        # must finish with no errors before you submit
 
 ## Group information (fill in)
 
-| Item | Your answer |
-| --- | --- |
-| Group number | |
-| Section | |
-| Repository URL | |
+| Item           | Your answer |
+| -------------- | ----------- |
+| Group number   |             |
+| Section        |             |
+| Repository URL |             |
 
 ## Members (each member fills in their own row in their own commit)
 
-| Member | Name | GitHub username | CSS file | What I did |
-| --- | --- | --- | --- | --- |
-| 1 (leader) | | | `base.css` | |
-| 2 | | | `nav.css` | |
-| 3 | | | `form.css` | |
+| Member     | Name             | GitHub username | CSS file   | What I did                                         |
+| ---------- | ---------------- | --------------- | ---------- | -------------------------------------------------- |
+| 1 (leader) |                  |                 | `base.css` |                                                    |
+| 2          |                  |                 | `nav.css`  |                                                    |
+| 3          | Zemeco M. Buntag | zemecobuntag    | `form.css` | Designed the login form in different screen sizes. |
 
 ## Experiment 0: the page without the viewport tag
 
@@ -44,12 +44,12 @@ What changed **after** adding it?
 
 ## DevTools test results
 
-| Width | What must be true | Pass? |
-| --- | --- | --- |
-| 360 px | 1 column. Nav links stacked and 48px tall. Options and buttons stacked. Footer in 1 column. No sideways scrollbar. | |
-| 768 px | Nav in one row (brand left, links right). Checkbox and link in one row. Two buttons side by side. | |
-| 1024 px | Brand panel and login card side by side. Footer in 3 columns. Heading is larger. | |
-| 1280 px | Content centered and stops at 1200px. | |
+| Width   | What must be true                                                                                                  | Pass? |
+| ------- | ------------------------------------------------------------------------------------------------------------------ | ----- |
+| 360 px  | 1 column. Nav links stacked and 48px tall. Options and buttons stacked. Footer in 1 column. No sideways scrollbar. | Pass  |
+| 768 px  | Nav in one row (brand left, links right). Checkbox and link in one row. Two buttons side by side.                  | Pass  |
+| 1024 px | Brand panel and login card side by side. Footer in 3 columns. Heading is larger.                                   | Pass  |
+| 1280 px | Content centered and stops at 1200px.                                                                              | Pass  |
 
 ### Breakpoints I observed
 
