@@ -30,8 +30,52 @@
    TODO .brand-panel__perks   display: none   (phones show only what matters most)
    -------------------------------------------------------------------- */
 
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 
+.page > main {
+  flex: 1;
+}
 
+.container {
+  width: 100%;
+  padding-inline: 1rem;
+}
+
+.login-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  padding-block: 1.5rem;
+}
+
+.brand-panel {
+  background: var(--navy);
+  color: #fff;
+  text-align: center;
+  padding: 1.5rem 1rem;
+  border-radius: var(--radius);
+}
+
+.brand-panel__badge {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--navy);
+  font-weight: 700;
+  font-size: 0.875rem;
+  border-radius: 999px;
+}
+
+.brand-panel__title {
+  font-size: 1.75rem;
+}
+
+.brand-panel__perks {
+  display: none;
+}
 
 /* ---- 2. 768px and up (tablets) ---------------------------------------
    TODO @media (min-width: 768px)
@@ -39,7 +83,15 @@
         .brand-panel          more padding (2rem)
    -------------------------------------------------------------------- */
 
+@media (min-width: 768px) {
+  .container {
+    padding-inline: 2rem;
+  }
 
+  .brand-panel {
+    padding: 2rem;
+  }
+}
 
 
 /* ---- 3. 1024px and up (laptops) --------------------------------------
@@ -52,10 +104,39 @@
                               margin-top 1.5rem; left padding 1.25rem
    -------------------------------------------------------------------- */
 
+@media (min-width: 1024px) {
+  .login-layout {
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 3rem;
+    padding-block: 3rem;
+  }
 
+  .brand-panel {
+    text-align: left;
+    padding: 3rem;
+  }
+
+  .brand-panel__title {
+    font-size: 2.5rem;
+  }
+
+  .brand-panel__perks {
+    display: block;
+    margin-top: 1.5rem;
+    padding-left: 1.25rem;
+  }
+}
 
 
 /* ---- 4. 1280px and up (desktops) -------------------------------------
    TODO @media (min-width: 1280px)
         .container            max-width: 1200px; centered (margin-inline: auto)
    -------------------------------------------------------------------- */
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1200px;
+    margin-inline: auto;
+  }
+}
