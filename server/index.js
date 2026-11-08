@@ -12,7 +12,7 @@ app.use(cors({ origin: process.env.CLIENT_ORIGIN || 'http://localhost:5173' }));
 app.use(express.json());
 
 app.use('/api/v1/health', require('./routes/health'));
-// Member 1: /api/v1/sessions is mounted here
+app.use('/api/v1/sessions', require('./routes/sessions'));
 // Member 2 adds below: /api/v1/users, then notFound and errorHandler
 
 const PORT = process.env.PORT || 3000;
