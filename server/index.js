@@ -15,5 +15,11 @@ app.use('/api/v1/health', require('./routes/health'));
 app.use('/api/v1/sessions', require('./routes/sessions'));
 // Member 2 adds below: /api/v1/users, then notFound and errorHandler
 
+app.use('/api/v1/users', require('./routes/users'));
+
+app.use(require('./middleware/notFound'));
+app.use(require('./middleware/errorHandler'));
+
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`API running on http://localhost:${PORT}`));
