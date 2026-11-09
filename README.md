@@ -29,11 +29,11 @@ npm run build        # must finish with no errors before you submit
 
 ## Members (each member fills in their own row in their own commit)
 
-| Member     | Name             | GitHub username | CSS file   | What I did                                         |
-| ---------- | ---------------- | --------------- | ---------- | -------------------------------------------------- |
-| 1 (leader) |                  |                 | `base.css` |                                                    |
+| Member     | Name             | GitHub username | CSS file   | What I did                                                                                                                                                                                                                                                          |
+| ---------- | ---------------- | --------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --- |
+| 1 (leader) |                  |                 | `base.css` |                                                                                                                                                                                                                                                                     |
 | 2          | Anrica Tinoy     | anricatinoy     | `nav.css`  | Part 2: Wrote docs/API-SPEC.md (3 required endpoints and the events design). Built the token middleware (requireAuth), GET /api/v1/users/me, and the 404 and 500 handlers. Made the Postman collection (7 requests), exported it, and took the Postman screenshots. |
-| 3          | Zemeco M. Buntag | zemecobuntag    | `form.css` | Designed the login form in different screen sizes. |
+| 3          | Zemeco M. Buntag | zemecobuntag    | `form.css` | Designed the login form in different screen sizes. Part 2: Built the API calls (auth.ts), connected the login form to the API, added the Welcome screen with log out, and added console logs for requests, responses and errors.                                    |     |
 
 ## Experiment 0: the page without the viewport tag
 
@@ -62,3 +62,29 @@ Screenshots are in `screenshots/` as `360.png`, `768.png`, `1024.png`, `1280.png
 ## What our group learned (leader writes this last)
 
 > (write your answer here)
+
+## Part 2 – Front end connected to the API (Member 3: Zemeco Buntag)
+
+### How to run
+
+1. Backend: `cd server`, copy `.env.example` to `.env`, `npm install`, `npm start` (runs on http://localhost:3000).
+2. Front end: in the project root, copy `.env.example` to `.env`, `npm install`, `npm run dev` (runs on http://localhost:5173).
+3. Demo login: student@campusconnect.test / Campus26
+
+### What the front end uses
+
+- `POST /api/v1/sessions`: log in, returns a token and the user.
+- `GET /api/v1/users/me`: gets the logged-in user (sends the token), used for the Welcome screen and after a refresh.
+- The API address comes from `VITE_API_URL` in `.env`.
+- The token is kept in sessionStorage and removed on log out.
+
+### What I did
+
+- `src/api/auth.ts`: the API calls, error handling, and console logs of requests, responses and errors (password and token are hidden).
+- `src/components/LoginForm.tsx` and `Welcome.tsx`: the form checks first, then calls the API; shows Loading, Success and Error states.
+- `src/styles/auth.css`: styles for the error message and Welcome screen (mobile-first).
+
+### Screenshots (360 px)
+
+![Wrong password](screenshots/login-fail-360.png)
+![Logged in](screenshots/login-success-360.png)
