@@ -30,10 +30,10 @@ npm run build        # must finish with no errors before you submit
 ## Members (each member fills in their own row in their own commit)
 
 | Member     | Name             | GitHub username | CSS file   | What I did                                                                                                                                                                                                                                                          |
-| ---------- | ---------------- | --------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ---------- | ---------------- | --------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --- |
 | 1 (leader) |                  |                 | `base.css` |                                                                                                                                                                                                                                                                     |
 | 2          | Anrica Tinoy     | anricatinoy     | `nav.css`  | Part 2: Wrote docs/API-SPEC.md (3 required endpoints and the events design). Built the token middleware (requireAuth), GET /api/v1/users/me, and the 404 and 500 handlers. Made the Postman collection (7 requests), exported it, and took the Postman screenshots. |
-| 3          | Zemeco M. Buntag | zemecobuntag    | `form.css` | Designed the login form in different screen sizes.                                                                                                                                                                                                                  |
+| 3          | Zemeco M. Buntag | zemecobuntag    | `form.css` | Designed the login form in different screen sizes. Part 2: Built the API calls (auth.ts), connected the login form to the API, added the Welcome screen with log out, and added console logs for requests, responses and errors.                                    |     |
 
 ## Experiment 0: the page without the viewport tag
 
